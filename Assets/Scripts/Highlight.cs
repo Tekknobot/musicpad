@@ -15,7 +15,7 @@ public class Highlight : MonoBehaviour
     }
 
     void Update() {
-        SampleSequencer sequencer = drumSequencer.GetComponent<SampleSequencer>();
+        AudioHelm.SampleSequencer sequencer = drumSequencer.GetComponent<AudioHelm.SampleSequencer>();
         
         if (sequencer == null) {
             Debug.LogWarning("SampleSequencer not found on drumSequencer GameObject.");

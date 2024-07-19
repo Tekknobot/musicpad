@@ -1,74 +1,114 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using AudioHelm;
 
 public class Tile : MonoBehaviour
 {
-    public Sprite default_cell;
-    public Sprite red_cell;
+    public SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component
+    private Sprite defaultSprite; // Default sprite of the Tile
+    private Sprite currentSprite; // Current sprite of the Tile
 
-    public float step;
-    public float duration;
+    private bool isRotating = false; // Flag to control rotation
+    private float rotationSpeed = 180f; // Rotation speed in degrees per second
+    private float currentRotation = 0f; // Current rotation angle
+    private Quaternion startRotation; // Initial rotation of the tile
 
-    private bool rotating = false;
-    private float rotationSpeed = 250f; // Adjust speed as needed  
-    private float totalRotation = 0f;  
-    
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        spriteRenderer = GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
+        defaultSprite = spriteRenderer.sprite; // Store default sprite
+        currentSprite = defaultSprite; // Initialize current sprite
+        startRotation = transform.rotation; // Store initial rotation
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (rotating) {
-            float degreesToRotate = rotationSpeed * Time.deltaTime;
-            RotateSpriteY(degreesToRotate); // Rotate continuously
-            totalRotation += Mathf.Abs(degreesToRotate);
-
-            if (totalRotation >= 180f) {
-                StopRotation();
-            }
-        }     
-    }
-
-    void OnMouseDown() {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null) {
-            SampleSequencer sequencer = GameObject.Find("DrumSquencer").GetComponent<SampleSequencer>();
-            if (sequencer != null) {
-                float noteStart = step;
-                float noteEnd = noteStart + duration;
-
-                if (spriteRenderer.sprite != red_cell) {
-                    spriteRenderer.sprite = red_cell;
-                    sequencer.AddNote(48, noteStart, noteEnd);
-                    StartRotation();
-                }
-                else if (spriteRenderer.sprite == red_cell) {
-                    spriteRenderer.sprite = default_cell;
-                    sequencer.RemoveNotesContainedInRange(48, noteStart, noteEnd);
-                    StartRotation();
-                }
-
-                Debug.Log($"Adding note: Pitch = 48, Start = {noteStart}, End = {noteEnd}");
-            }
+        if (isRotating)
+        {
+            RotateSprite(); // Rotate the sprite when isRotating is true
         }
     }
 
-    void StartRotation() {
-        rotating = true;
-        totalRotation = 0f; // Reset total rotation
+    void OnMouseDown()
+    {
+        // Toggle between default sprite and selected Pad's sprite
+        if (currentSprite == defaultSprite)
+        {
+            // Copy sprite from selected Pad to this Tile
+            if (BoardManager.Instance != null && BoardManager.Instance.SelectedPad != null)
+            {
+                Sprite padSprite = BoardManager.Instance.SelectedPad.GetCurrentSprite();
+                SetSprite(padSprite);
+
+                // Ensure tile is on top layer
+                SetSortingOrder(1);
+
+                // Start rotating the tile sprite
+                StartRotation();
+            }
+        }
+        else
+        {
+            // Revert to default sprite
+            SetSprite(defaultSprite);
+            StopRotation();
+        }
     }
 
-    void StopRotation() {
-        rotating = false;
+    public void SetSprite(Sprite sprite)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = sprite; // Set the sprite of the SpriteRenderer
+            currentSprite = sprite; // Update current sprite
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer component not found.");
+        }
     }
 
-    void RotateSpriteY(float degreesPerSecond) {
-        transform.Rotate(Vector3.up * degreesPerSecond);
+    public Sprite GetSprite()
+    {
+        return currentSprite; // Return current sprite
+    }
+
+    public void ResetSprite()
+    {
+        SetSprite(defaultSprite); // Reset sprite to default
+    }
+
+    public void StartRotation()
+    {
+        isRotating = true; // Start rotating the sprite
+        SetSortingOrder(2); // Ensure tile is on top layer when rotating
+    }
+
+    public void StopRotation()
+    {
+        isRotating = false; // Stop rotating the sprite
+        currentRotation = 0f; // Reset current rotation angle
+        SetSortingOrder(0); // Reset sorting order to default when rotation stops
+
+        // Snap rotation to original rotation
+        transform.rotation = startRotation;
+    }
+
+    private void RotateSprite()
+    {
+        float rotationAmount = rotationSpeed * Time.deltaTime; // Calculate rotation amount
+        currentRotation += rotationAmount; // Update current rotation angle
+
+        if (currentRotation >= 180f)
+        {
+            currentRotation = 180f; // Clamp rotation angle to 180 degrees
+            StopRotation(); // Stop rotation when 180 degrees is reached
+        }
+
+        float normalizedRotation = currentRotation / 180f; // Normalize rotation amount
+        transform.rotation = Quaternion.Lerp(startRotation, startRotation * Quaternion.Euler(0f, 0f, 180f), normalizedRotation);
+    }
+
+    private void SetSortingOrder(int order)
+    {
+        spriteRenderer.sortingOrder = order; // Set the sorting order of the spriteRenderer
     }
 }

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6026799791180722901}
   - component: {fileID: 4448757436394311977}
-  - component: {fileID: -1442566676035412913}
   - component: {fileID: 4406177758149172177}
+  - component: {fileID: 8113108075387127137}
   m_Layer: 0
-  m_Name: cell_default
+  m_Name: pad_default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-1442566676035412913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298257209045040697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f9bbe2a9569774db1212ad64a1ca8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  default_cell: {fileID: 21300000, guid: 78b8217c21f460c43acdb671fc45e794, type: 3}
-  red_cell: {fileID: 21300000, guid: 99e667dc8fd147e46ac9f213b643d054, type: 3}
-  step: 0
-  duration: 1
 --- !u!61 &4406177758149172177
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,3 +131,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &8113108075387127137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298257209045040697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa123f74b7f3f24096ef18d68b349ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  midi_note: 0
+  duration: 0
+  kick: {fileID: 21300000, guid: 0896617326b66294b9018589782bffae, type: 3}
+  snare: {fileID: 21300000, guid: 46a0ec7829fc963469ef984337310b0f, type: 3}
+  clap: {fileID: 21300000, guid: 0cbf34f29948eb84cba94993a94178f9, type: 3}
+  closed: {fileID: 21300000, guid: 75c513308de89fd4a8c64d8d1253a3d7, type: 3}
+  open: {fileID: 21300000, guid: 839d463d77504eb4787a18ccc3688e03, type: 3}
+  crash: {fileID: 21300000, guid: 2d20a6686b5db294a95a7f07d717ec74, type: 3}
+  ride: {fileID: 21300000, guid: 99e667dc8fd147e46ac9f213b643d054, type: 3}
+  rim: {fileID: 21300000, guid: 49a77df0148f3b54d98a78f6a27707b7, type: 3}
