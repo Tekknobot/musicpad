@@ -25,6 +25,7 @@ public class BoardManager : MonoBehaviour {
                 spawnedTile.step = step;
                 spawnedTile.duration = noteDuration;
                 spawnedTile.name = $"Tile ({y},{x})";
+                step++;
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
