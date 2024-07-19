@@ -12,7 +12,7 @@ public class Tile : MonoBehaviour
     public float duration;
 
     private bool rotating = false;
-    private float rotationSpeed = 300f; // Adjust speed as needed  
+    private float rotationSpeed = 250f; // Adjust speed as needed  
     private float totalRotation = 0f;  
     
     // Start is called before the first frame update
@@ -29,7 +29,7 @@ public class Tile : MonoBehaviour
             RotateSpriteY(degreesToRotate); // Rotate continuously
             totalRotation += Mathf.Abs(degreesToRotate);
 
-            if (totalRotation >= 360f) {
+            if (totalRotation >= 180f) {
                 StopRotation();
             }
         }     
@@ -38,23 +38,23 @@ public class Tile : MonoBehaviour
     void OnMouseDown() {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null) {
-            if (spriteRenderer.sprite != red_cell) {
-                spriteRenderer.sprite = red_cell;
-                SampleSequencer sequencer = GameObject.Find("DrumSquencer").GetComponent<SampleSequencer>();
-                if (sequencer != null) {
-                    float noteStart = step;
-                    sequencer.AddNote(48, noteStart, noteStart + duration);
+            SampleSequencer sequencer = GameObject.Find("DrumSquencer").GetComponent<SampleSequencer>();
+            if (sequencer != null) {
+                float noteStart = step;
+                float noteEnd = noteStart + duration;
+
+                if (spriteRenderer.sprite != red_cell) {
+                    spriteRenderer.sprite = red_cell;
+                    sequencer.AddNote(48, noteStart, noteEnd);
                     StartRotation();
                 }
-            }
-            else if (spriteRenderer.sprite == red_cell) {
-                spriteRenderer.sprite = default_cell;
-                SampleSequencer sequencer = GameObject.Find("DrumSquencer").GetComponent<SampleSequencer>();
-                if (sequencer != null) {
-                    float noteStart = step;
-                    sequencer.RemoveNotesContainedInRange(48, noteStart, noteStart + duration);
+                else if (spriteRenderer.sprite == red_cell) {
+                    spriteRenderer.sprite = default_cell;
+                    sequencer.RemoveNotesContainedInRange(48, noteStart, noteEnd);
                     StartRotation();
                 }
+
+                Debug.Log($"Adding note: Pitch = 48, Start = {noteStart}, End = {noteEnd}");
             }
         }
     }
