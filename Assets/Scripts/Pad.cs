@@ -27,7 +27,7 @@ public class Pad : MonoBehaviour
         // Set this pad as the selected pad in BoardManager
         BoardManager.Instance.SelectedPad = this;
 
-        // Display the board based on saved tiles or default
+        // Display the appropriate board in BoardManager
         BoardManager.Instance.DisplaySavedOrDefaultBoard();
     }
 

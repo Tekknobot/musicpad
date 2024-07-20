@@ -11,6 +11,14 @@ public class Tile : MonoBehaviour
     private float currentRotation = 0f; // Current rotation angle
     private Quaternion startRotation; // Initial rotation of the tile
 
+    private int step; // Step number of the tile
+
+    public int Step
+    {
+        get { return step; }
+        set { step = value; }
+    }
+
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
@@ -23,30 +31,46 @@ public class Tile : MonoBehaviour
     {
         if (isRotating)
         {
-            RotateSprite(); // Rotate the sprite when isRotating is true
+            RotateTile(); // Rotate the tile when isRotating is true
         }
     }
 
     void OnMouseDown()
     {
-        // Ensure BoardManager.Instance is not null
-        if (BoardManager.Instance != null)
+        if (!isRotating)
         {
-            // Get the selected Pad from BoardManager
+            // Get the selected pad from BoardManager
             Pad selectedPad = BoardManager.Instance.SelectedPad;
 
-            // Check if there is a selected Pad and it has a sprite
-            if (selectedPad != null && selectedPad.GetCurrentSprite() != null)
+            if (selectedPad != null)
             {
-                // Replace Tile's sprite with selected Pad's sprite
+                // Replace the tile sprite with the selected pad sprite
                 SetSprite(selectedPad.GetCurrentSprite());
 
-                // Start rotating the tile sprite
+                // Start rotating the tile
                 StartRotation();
-
-                // Save replaced tile (if needed)
-                BoardManager.Instance.SaveReplacedTile(this);
             }
+        }
+    }
+
+    private void RotateTile()
+    {
+        float rotationAmount = rotationSpeed * Time.deltaTime; // Calculate rotation amount
+        currentRotation += rotationAmount; // Update current rotation angle
+
+        if (currentRotation >= 180f)
+        {
+            currentRotation = 180f; // Clamp rotation angle to 180 degrees
+            StopRotation(); // Stop rotating when 180 degrees is reached
+        }
+
+        float normalizedRotation = currentRotation / 180f; // Normalize rotation amount
+        transform.rotation = Quaternion.Lerp(startRotation, startRotation * Quaternion.Euler(180f, 180f, 0f), normalizedRotation);
+
+        if (!isRotating)
+        {
+            // Snap rotation to original rotation
+            transform.rotation = startRotation;
         }
     }
 
@@ -75,33 +99,16 @@ public class Tile : MonoBehaviour
 
     public void StartRotation()
     {
-        isRotating = true; // Start rotating the sprite
-        SetSortingOrder(2); // Ensure tile is on top layer when rotating
+        isRotating = true; // Start rotating the tile
     }
 
     public void StopRotation()
     {
-        isRotating = false; // Stop rotating the sprite
+        isRotating = false; // Stop rotating the tile
         currentRotation = 0f; // Reset current rotation angle
-        SetSortingOrder(0); // Reset sorting order to default when rotation stops
 
         // Snap rotation to original rotation
         transform.rotation = startRotation;
-    }
-
-    private void RotateSprite()
-    {
-        float rotationAmount = rotationSpeed * Time.deltaTime; // Calculate rotation amount
-        currentRotation += rotationAmount; // Update current rotation angle
-
-        if (currentRotation >= 180f)
-        {
-            currentRotation = 180f; // Clamp rotation angle to 180 degrees
-            StopRotation(); // Stop rotation when 180 degrees is reached
-        }
-
-        float normalizedRotation = currentRotation / 180f; // Normalize rotation amount
-        transform.rotation = Quaternion.Lerp(startRotation, startRotation * Quaternion.Euler(0f, 0f, 180f), normalizedRotation);
     }
 
     private void SetSortingOrder(int order)

@@ -9,7 +9,6 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Tile _tilePrefab;
     [SerializeField] private Sprite _defaultSprite; // Default sprite for tiles
 
-    private Dictionary<Vector2, Pad> _pads; // Dictionary to store Pads
     private Dictionary<Vector2, Tile> _tiles; // Dictionary to store Tiles
     private Pad selectedPad; // Store the selected Pad
 
@@ -22,7 +21,6 @@ public class BoardManager : MonoBehaviour
     void Awake()
     {
         Instance = this; // Initialize singleton instance
-        _pads = new Dictionary<Vector2, Pad>(); // Initialize _pads dictionary
         _tiles = new Dictionary<Vector2, Tile>(); // Initialize _tiles dictionary
     }
 
@@ -79,26 +77,6 @@ public class BoardManager : MonoBehaviour
     {
         // Example: Check if there are saved tiles (replace with actual save/load logic)
         return false; // Modify this condition based on your actual game's logic
-    }
-
-    public void SaveReplacedTile(Tile replacedTile)
-    {
-        // Logic to save replaced tile goes here
-        Debug.Log("Replaced tile saved!");
-    }
-
-    public Pad GetPadAtPosition(Vector2 pos)
-    {
-        if (_pads.TryGetValue(pos, out var pad)) // Access _pads dictionary
-            return pad;
-        return null;
-    }
-
-    public Tile GetTileAtPosition(Vector2 pos)
-    {
-        if (_tiles.TryGetValue(pos, out var tile))
-            return tile;
-        return null;
     }
 
     public void DisplaySavedOrDefaultBoard()
