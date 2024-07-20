@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int _width, _height;
     [SerializeField] private Tile _tilePrefab;
     [SerializeField] private Sprite _defaultSprite; // Default sprite for tiles
+    [SerializeField] private Sprite _defaultTileBoardSprite; // Default tile board sprite
 
     private Dictionary<int, Tile> _tiles; // Dictionary to store Tiles
     private List<ReplacedTileData> _replacedTilesData; // List to store replaced tile data
@@ -21,6 +23,11 @@ public class BoardManager : MonoBehaviour
     }
 
     public int _stepCount; // Step counter
+
+    public Sprite DefaultTileBoardSprite
+    {
+        get { return _defaultTileBoardSprite; }
+    }
 
     void Awake()
     {
@@ -57,7 +64,6 @@ public class BoardManager : MonoBehaviour
                 var spawnedTile = Instantiate(_tilePrefab, new Vector3(y, x), Quaternion.identity);
                 spawnedTile.name = $"Tile ({x},{y})";
                 spawnedTile.step = _stepCount++;
-                Debug.Log(_stepCount);
                 _tiles[step++] = spawnedTile;
 
                 // Example: Save initial tile data

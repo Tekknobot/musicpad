@@ -70,12 +70,12 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void SetSprite(Sprite sprite)
+    public void SetSprite(Sprite newSprite)
     {
         if (spriteRenderer != null)
         {
-            spriteRenderer.sprite = sprite; // Set the sprite of the SpriteRenderer
-            currentSprite = sprite; // Update current sprite
+            spriteRenderer.sprite = newSprite; // Update the sprite of the SpriteRenderer
+            currentSprite = newSprite; // Update current sprite reference
         }
         else
         {
@@ -123,26 +123,24 @@ public class Tile : MonoBehaviour
     {
         Tile selectedTile = this; // Assuming this logic is correct for your game
 
-        if (selectedTile != null)
+        if (selectedTile != null && selectedTile != this)
         {
-            BoardManager.Instance.SaveReplacedTileData(selectedTile, selectedTile.GetSprite(), selectedTile.Step); // Pass 'Step' parameter
-            this.SetSprite(selectedTile.GetSprite());
-            StartRotation();
+            // Check if the selected tile's sprite is different from this tile's current sprite
+            if (selectedTile.GetSprite() != this.GetSprite())
+            {
+                // Replace the tile with the selected tile's sprite
+                BoardManager.Instance.SaveReplacedTileData(selectedTile, selectedTile.GetSprite(), selectedTile.Step); // Pass 'Step' parameter
+                this.SetSprite(selectedTile.GetSprite());
+                StartRotation();
 
-            // Retrieve and log the step variable of the clicked tile
-            Debug.Log($"Clicked tile step: {selectedTile.Step}");
+                // Retrieve and log the step variable of the clicked tile
+                Debug.Log($"Clicked tile step: {selectedTile.Step}");
+            }
         }
     }
 
-    private void SetSortingOrder(int order)
+    public void SetSpriteToDefault()
     {
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.sortingOrder = order; // Set the sorting order of the spriteRenderer
-        }
-        else
-        {
-            Debug.LogWarning("SpriteRenderer component not found.");
-        }
+        SetSprite(defaultSprite); // Set sprite to default sprite
     }
 }
