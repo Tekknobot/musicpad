@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour
         }
 
         defaultSprite = spriteRenderer.sprite; // Store default sprite
-        currentSprite = defaultSprite; // Initialize current sprite
+        currentSprite = defaultSprite; // Initialize current sprite reference
         startRotation = transform.rotation; // Store initial rotation
 
         defaultColor = spriteRenderer.color; // Store default color of the sprite
@@ -158,7 +158,6 @@ public class Tile : MonoBehaviour
                     if (padSprite == otherTileSprite)
                     {
                         // Replace the other tile sprite with the default sprite
-                        BoardManager.Instance.SaveReplacedTileData(otherTile, BoardManager.Instance.DefaultTileBoardSprite, otherTile.Step); // Pass 'Step' parameter
                         otherTile.SetSprite(BoardManager.Instance.DefaultTileBoardSprite);
                         otherTile.StartRotation();
 
@@ -199,5 +198,11 @@ public class Tile : MonoBehaviour
         {
             spriteRenderer.color = defaultColor; // Revert sprite color to default color
         }
+    }
+
+    // Trigger SaveReplacedTileData from external scripts or events
+    public void TriggerSaveReplacedTileData(Sprite newSprite)
+    {
+        BoardManager.Instance.SaveReplacedTileData(this, newSprite, Step);
     }
 }

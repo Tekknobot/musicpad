@@ -599,11 +599,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyzones:
-  - audioClip: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: 3616c36168adce749901e295940f515b, type: 3}
     mixer: {fileID: 0}
     rootKey: 60
-    minKey: 0
-    maxKey: 127
+    minKey: 60
+    maxKey: 60
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: 16b7987c7feb1a14da50f17b7b21085e, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 61
+    minKey: 61
+    maxKey: 61
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: 785e52e99ae3e0d48b08161770753f94, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 62
+    minKey: 62
+    maxKey: 62
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: 0626eeb7178d2e64fbff7f4cf54af1be, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 63
+    minKey: 63
+    maxKey: 63
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: 3aea2a6d3ae4791459f41020769b8634, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 64
+    minKey: 64
+    maxKey: 64
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: 6015f563e8ef73c429605751775d4d32, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 65
+    minKey: 65
+    maxKey: 65
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: a1056fe4ec64da5458f4e80910f2d243, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 66
+    minKey: 66
+    maxKey: 66
+    minVelocity: 0
+    maxVelocity: 1
+    lastScheduled: 0
+  - audioClip: {fileID: 8300000, guid: a9b3e4e4c160cf84f96ede86d2205dd1, type: 3}
+    mixer: {fileID: 0}
+    rootKey: 67
+    minKey: 67
+    maxKey: 67
     minVelocity: 0
     maxVelocity: 1
     lastScheduled: 0

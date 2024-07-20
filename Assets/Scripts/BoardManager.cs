@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using AudioHelm;
 
 public class BoardManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class BoardManager : MonoBehaviour
     {
         get { return _defaultTileBoardSprite; }
     }
+
+    private int _midiNoteStart = 48; // MIDI note number to start with
 
     void Awake()
     {
@@ -135,6 +138,18 @@ public class BoardManager : MonoBehaviour
     {
         // Create a new ReplacedTileData object and add it to the replaced tiles data list
         _replacedTilesData.Add(new ReplacedTileData(tile.GetSprite(), newSprite, tile.Step, newStep));
+
+        // Example: Trigger MIDI note when a tile's sprite is replaced
+        if (newSprite != _defaultSprite)
+        {
+            int midiNote = GetMIDINoteForTileStep(tile.Step);
+            GameObject.Find("DrumSequencer").GetComponent<SampleSequencer>().AddNote(midiNote, tile.Step, tile.Step + 1);
+        }
+    }
+
+    public int GetMIDINoteForTileStep(int step)
+    {
+        return _midiNoteStart + step;
     }
 
     public void ClearTileDataForStep(int step)
