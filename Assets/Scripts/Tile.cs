@@ -11,7 +11,7 @@ public class Tile : MonoBehaviour
     private float currentRotation = 0f; // Current rotation angle
     private Quaternion startRotation; // Initial rotation of the tile
 
-    public int step; // Step number of the tile
+    private int step; // Step number of the tile
 
     public int Step
     {

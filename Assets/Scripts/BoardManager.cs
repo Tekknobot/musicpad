@@ -62,10 +62,10 @@ public class BoardManager : MonoBehaviour
                 // Instantiate tiles
                 var spawnedTile = Instantiate(_tilePrefab, new Vector3(y, x), Quaternion.identity);
                 spawnedTile.name = $"Tile ({x},{y})";
-                spawnedTile.step = _stepCount++;
+                spawnedTile.Step = _stepCount++;
                 _tiles[step++] = spawnedTile;
 
-                // Example: Save initial tile data
+                // Save initial tile data
                 SaveTileData(spawnedTile, spawnedTile.GetSprite(), spawnedTile.Step);
             }
         }
@@ -107,77 +107,56 @@ public class BoardManager : MonoBehaviour
                 {
                     boardTile.SetSprite(replacedTileData.NewSprite);
                     tileFound = true;
-                    break; // Exit the loop once a match is found
+                    break; // Exit loop once a match is found
                 }
             }
 
-            // If no matching saved tile was found, reset the board tile to the default sprite
             if (!tileFound)
             {
-                boardTile.SetSprite(_defaultSprite);
+                boardTile.SetSpriteToDefault(); // Set the board tile sprite to default if no match is found
             }
         }
     }
 
-    private void ClearTiles()
+    public void ClearTiles()
     {
         foreach (var tile in _tiles.Values)
         {
-            tile.SetSprite(_defaultSprite); // Reset all tiles to default sprite
+            tile.ResetSprite(); // Reset each tile's sprite to default
         }
     }
 
     public bool HasSavedTiles()
     {
-        return _replacedTilesData.Count > 0; // Check if there are saved tiles in replacedTilesData list
+        return _replacedTilesData.Count > 0; // Return true if there are saved tiles data
     }
 
     public void SaveReplacedTileData(Tile tile, Sprite newSprite, int newStep)
     {
-        // Save replaced tile data into the list
-        ReplacedTileData replacedTileData = new ReplacedTileData(tile, newSprite, newStep);
-        _replacedTilesData.Add(replacedTileData);
+        // Create a new ReplacedTileData object and add it to the replaced tiles data list
+        _replacedTilesData.Add(new ReplacedTileData(tile.GetSprite(), newSprite, tile.Step, newStep));
     }
 
     public void ClearTileDataForStep(int step)
     {
-        _replacedTilesData.RemoveAll(data => data.NewStep == step);
+        // Remove replaced tile data associated with the specified step
+        _replacedTilesData.RemoveAll(data => data.OldStep == step);
+    }
+
+    public Dictionary<int, Tile> GetTiles()
+    {
+        return _tiles; // Return the _tiles dictionary
+    }
+
+    public Sprite GetDefaultTileBoardSprite()
+    {
+        return _defaultTileBoardSprite; // Return the default tile board sprite
     }
 
     private void SaveTileData(Tile tile, Sprite sprite, int step)
     {
-        // Save tile data into the list or array
-        // Here you can choose to save it in _replacedTilesData or another appropriate structure
-        // For simplicity, I'll demonstrate saving in _replacedTilesData
-        ReplacedTileData tileData = new ReplacedTileData(tile, sprite, step);
-        _replacedTilesData.Add(tileData);
-    }
-
-    // Method to erase tile data based on a function from Tile.cs
-    public void EraseTileData(Tile tile)
-    {
-        // Iterate through _replacedTilesData and remove entries based on tile criteria
-        _replacedTilesData.RemoveAll(data => data.Tile == tile);
-    }
-
-    // Method to get all tiles
-    public Dictionary<int, Tile> GetTiles()
-    {
-        return _tiles;
-    }
-
-    // Class to hold replaced tile data
-    private class ReplacedTileData
-    {
-        public Tile Tile;
-        public Sprite NewSprite;
-        public int NewStep;
-
-        public ReplacedTileData(Tile tile, Sprite newSprite, int newStep)
-        {
-            Tile = tile;
-            NewSprite = newSprite;
-            NewStep = newStep;
-        }
+        // Example: You can implement your own logic to save tile data here
+        // For demonstration, I'm just printing the data to console
+        Debug.Log($"Saving Tile Data: Tile ({tile.transform.position.x},{tile.transform.position.y}), Sprite: {sprite.name}, Step: {step}");
     }
 }
