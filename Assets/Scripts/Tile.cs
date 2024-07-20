@@ -22,6 +22,11 @@ public class Tile : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
+        if (spriteRenderer == null)
+        {
+            Debug.LogWarning("SpriteRenderer component not found.");
+        }
+
         defaultSprite = spriteRenderer.sprite; // Store default sprite
         currentSprite = defaultSprite; // Initialize current sprite
         startRotation = transform.rotation; // Store initial rotation
@@ -39,34 +44,8 @@ public class Tile : MonoBehaviour
     {
         if (!isRotating)
         {
-            // Get the selected pad from BoardManager
-            Pad selectedPad = BoardManager.Instance.SelectedPad;
-
-            if (selectedPad != null)
-            {
-                // Replace the tile sprite with the selected pad sprite
-                SetSprite(selectedPad.GetCurrentSprite());
-
-                // Start rotating the tile
-                StartRotation();
-            }
-
-            Tile selectedTile = this; // Get the selected tile from BoardManager
-
-            if (selectedTile != null)
-            {
-                // Save replaced tile data in BoardManager
-                BoardManager.Instance.SaveReplacedTileData(this, selectedTile.GetSprite(), selectedTile.Step);
-
-                // Replace the tile sprite with the selected tile sprite
-                SetSprite(selectedTile.GetSprite());
-
-                // Start rotating the tile
-                StartRotation();
-
-                // Retrieve and log the step variable of the clicked tile
-                Debug.Log($"Clicked tile step: {Step}");
-            }            
+            HandlePadInteraction(); // Handle interaction with Pad object
+            HandleTileInteraction(); // Handle interaction with another Tile object
         }
     }
 
@@ -128,8 +107,42 @@ public class Tile : MonoBehaviour
         transform.rotation = startRotation;
     }
 
+    private void HandlePadInteraction()
+    {
+        Pad selectedPad = BoardManager.Instance.SelectedPad;
+
+        if (selectedPad != null)
+        {
+            SetSprite(selectedPad.GetCurrentSprite());
+            BoardManager.Instance.SaveReplacedTileData(this, selectedPad.GetCurrentSprite(), Step); // Pass 'Step' parameter
+            StartRotation();
+        }
+    }
+
+    private void HandleTileInteraction()
+    {
+        Tile selectedTile = this; // Assuming this logic is correct for your game
+
+        if (selectedTile != null)
+        {
+            BoardManager.Instance.SaveReplacedTileData(selectedTile, selectedTile.GetSprite(), selectedTile.Step); // Pass 'Step' parameter
+            SetSprite(selectedTile.GetSprite());
+            StartRotation();
+
+            // Retrieve and log the step variable of the clicked tile
+            Debug.Log($"Clicked tile step: {Step}");
+        }
+    }
+
     private void SetSortingOrder(int order)
     {
-        spriteRenderer.sortingOrder = order; // Set the sorting order of the spriteRenderer
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sortingOrder = order; // Set the sorting order of the spriteRenderer
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer component not found.");
+        }
     }
 }

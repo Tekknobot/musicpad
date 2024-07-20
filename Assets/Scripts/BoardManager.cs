@@ -14,13 +14,13 @@ public class BoardManager : MonoBehaviour
 
     private Pad selectedPad; // Store the selected Pad
 
-    public int step;
-
     public Pad SelectedPad
     {
         get { return selectedPad; }
         set { selectedPad = value; }
     }
+
+    private int step; // Step counter
 
     void Awake()
     {
@@ -37,7 +37,7 @@ public class BoardManager : MonoBehaviour
         // In your actual implementation, this logic should come from your save/load system
         if (HasSavedTiles())
         {
-            DisplaySavedTilesForPad(selectedPad.GetCurrentSprite());
+            DisplaySavedOrDefaultBoard();
         }
         else
         {
@@ -47,6 +47,8 @@ public class BoardManager : MonoBehaviour
 
     void GenerateGrid()
     {
+        step = 0; // Reset step counter
+
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
@@ -70,26 +72,42 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    public void DisplaySavedOrDefaultBoard()
+    {
+        if (HasSavedTiles())
+        {
+            DisplaySavedTilesForPad(selectedPad.GetCurrentSprite());
+        }
+        else
+        {
+            DisplayDefaultBoard();
+        }
+    }
+
     public void DisplaySavedTilesForPad(Sprite padSprite)
     {
         ClearTiles(); // Clear current tile sprites
 
-        foreach (var replacedTileData in _replacedTilesData)
+        // Iterate through each tile on the board
+        foreach (var boardTile in _tiles.Values)
         {
-            if (replacedTileData.NewSprite == padSprite)
+            bool tileFound = false;
+
+            // Check each saved tile data to find a match with the current board tile's step
+            foreach (var replacedTileData in _replacedTilesData)
             {
-                int tile_step = replacedTileData.NewStep;
-
-                if (_tiles.ContainsKey(tile_step))
+                if (replacedTileData.NewSprite == padSprite && boardTile.Step == replacedTileData.NewStep)
                 {
-                    Tile tileToUpdate = _tiles[tile_step];
-
-                    // Check if the tile's step matches the saved step
-                    if (tileToUpdate.Step == replacedTileData.NewStep)
-                    {
-                        tileToUpdate.SetSprite(replacedTileData.NewSprite);
-                    }
+                    boardTile.SetSprite(replacedTileData.NewSprite);
+                    tileFound = true;
+                    break; // Exit the loop once a match is found
                 }
+            }
+
+            // If no matching saved tile was found, reset the board tile to the default sprite
+            if (!tileFound)
+            {
+                boardTile.SetSprite(_defaultSprite);
             }
         }
     }
@@ -107,22 +125,10 @@ public class BoardManager : MonoBehaviour
         return _replacedTilesData.Count > 0; // Check if there are saved tiles in replacedTilesData list
     }
 
-    public void DisplaySavedOrDefaultBoard()
-    {
-        if (HasSavedTiles())
-        {
-            DisplaySavedTilesForPad(selectedPad.GetCurrentSprite());
-        }
-        else
-        {
-            DisplayDefaultBoard();
-        }
-    }
-
-    public void SaveReplacedTileData(Tile replacedTile, Sprite newSprite, int newStep)
+    public void SaveReplacedTileData(Tile tile, Sprite newSprite, int newStep)
     {
         // Save replaced tile data into the list
-        ReplacedTileData replacedTileData = new ReplacedTileData(replacedTile, newSprite, newStep);
+        ReplacedTileData replacedTileData = new ReplacedTileData(tile, newSprite, newStep);
         _replacedTilesData.Add(replacedTileData);
     }
 
