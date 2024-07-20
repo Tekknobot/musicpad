@@ -98,10 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f9bbe2a9569774db1212ad64a1ca8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  default_cell: {fileID: 21300000, guid: 78b8217c21f460c43acdb671fc45e794, type: 3}
-  red_cell: {fileID: 21300000, guid: 99e667dc8fd147e46ac9f213b643d054, type: 3}
+  spriteRenderer: {fileID: 0}
   step: 0
-  duration: 1
 --- !u!61 &4406177758149172177
 BoxCollider2D:
   m_ObjectHideFlags: 0

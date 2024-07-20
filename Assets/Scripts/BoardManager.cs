@@ -21,7 +21,7 @@ public class BoardManager : MonoBehaviour
         set { selectedPad = value; }
     }
 
-    public int _stepCount; // Step counter
+    public int _stepCount = -1; // Step counter
 
     public Sprite DefaultTileBoardSprite
     {
@@ -158,6 +158,12 @@ public class BoardManager : MonoBehaviour
     {
         // Iterate through _replacedTilesData and remove entries based on tile criteria
         _replacedTilesData.RemoveAll(data => data.Tile == tile);
+    }
+
+    // Method to get all tiles
+    public Dictionary<int, Tile> GetTiles()
+    {
+        return _tiles;
     }
 
     // Class to hold replaced tile data

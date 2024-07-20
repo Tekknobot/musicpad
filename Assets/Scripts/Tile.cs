@@ -1,5 +1,3 @@
-// Tile.cs
-
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -24,6 +22,9 @@ public class Tile : MonoBehaviour
     private float clickTimeThreshold = 1f; // Time threshold to detect long press (1 second)
     private float clickStartTime = 0f; // Time when mouse button was pressed
 
+    private Color defaultColor; // Default color of the tile sprite
+    private Color highlightColor = Color.yellow; // Highlight color (adjust as needed)
+
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
@@ -35,6 +36,8 @@ public class Tile : MonoBehaviour
         defaultSprite = spriteRenderer.sprite; // Store default sprite
         currentSprite = defaultSprite; // Initialize current sprite
         startRotation = transform.rotation; // Store initial rotation
+
+        defaultColor = spriteRenderer.color; // Store default color of the sprite
     }
 
     void Update()
@@ -137,27 +140,31 @@ public class Tile : MonoBehaviour
 
     private void HandleTileInteraction()
     {
-        Tile selectedTile = this; // Assuming this logic is correct for your game
-
-        if (selectedTile != null && selectedTile != this)
+        // Iterate through all tiles on the board
+        foreach (var kvp in BoardManager.Instance.GetTiles())
         {
-            Pad selectedPad = BoardManager.Instance.SelectedPad;
+            Tile otherTile = kvp.Value; // Get the Tile object from the KeyValuePair
 
-            if (selectedPad != null)
+            if (otherTile != this)
             {
-                Sprite padSprite = selectedPad.GetCurrentSprite();
-                Sprite currentTileSprite = this.GetSprite();
+                Pad selectedPad = BoardManager.Instance.SelectedPad;
 
-                // Check if the pad sprite is the same as the clicked tile's current sprite
-                if (padSprite == currentTileSprite)
+                if (selectedPad != null)
                 {
-                    // Replace the tile sprite with the default sprite
-                    BoardManager.Instance.SaveReplacedTileData(selectedTile, BoardManager.Instance.DefaultTileBoardSprite, selectedTile.Step); // Pass 'Step' parameter
-                    this.SetSprite(BoardManager.Instance.DefaultTileBoardSprite);
-                    StartRotation();
+                    Sprite padSprite = selectedPad.GetCurrentSprite();
+                    Sprite otherTileSprite = otherTile.GetSprite();
 
-                    // Log that the tile sprite was replaced with default
-                    Debug.Log($"Replaced tile with default sprite. Clicked tile step: {selectedTile.Step}");
+                    // Check if the pad sprite is the same as the other tile's current sprite
+                    if (padSprite == otherTileSprite)
+                    {
+                        // Replace the other tile sprite with the default sprite
+                        BoardManager.Instance.SaveReplacedTileData(otherTile, BoardManager.Instance.DefaultTileBoardSprite, otherTile.Step); // Pass 'Step' parameter
+                        otherTile.SetSprite(BoardManager.Instance.DefaultTileBoardSprite);
+                        otherTile.StartRotation();
+
+                        // Log that the other tile sprite was replaced with default
+                        Debug.Log($"Replaced other tile with default sprite. Other tile step: {otherTile.Step}");
+                    }
                 }
             }
         }
@@ -176,5 +183,21 @@ public class Tile : MonoBehaviour
 
         // Clear saved data associated with this tile step
         BoardManager.Instance.ClearTileDataForStep(Step);
+    }
+
+    public void Highlight()
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = highlightColor; // Change sprite color to highlight color
+        }
+    }
+
+    public void Unhighlight()
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = defaultColor; // Revert sprite color to default color
+        }
     }
 }
