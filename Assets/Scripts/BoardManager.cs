@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -140,6 +139,11 @@ public class BoardManager : MonoBehaviour
         _replacedTilesData.Add(replacedTileData);
     }
 
+    public void ClearTileDataForStep(int step)
+    {
+        _replacedTilesData.RemoveAll(data => data.NewStep == step);
+    }
+
     private void SaveTileData(Tile tile, Sprite sprite, int step)
     {
         // Save tile data into the list or array
@@ -147,6 +151,13 @@ public class BoardManager : MonoBehaviour
         // For simplicity, I'll demonstrate saving in _replacedTilesData
         ReplacedTileData tileData = new ReplacedTileData(tile, sprite, step);
         _replacedTilesData.Add(tileData);
+    }
+
+    // Method to erase tile data based on a function from Tile.cs
+    public void EraseTileData(Tile tile)
+    {
+        // Iterate through _replacedTilesData and remove entries based on tile criteria
+        _replacedTilesData.RemoveAll(data => data.Tile == tile);
     }
 
     // Class to hold replaced tile data

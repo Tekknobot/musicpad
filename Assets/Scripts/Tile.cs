@@ -1,3 +1,5 @@
+// Tile.cs
+
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -18,6 +20,9 @@ public class Tile : MonoBehaviour
         get { return step; }
         set { step = value; }
     }
+
+    private float clickTimeThreshold = 1f; // Time threshold to detect long press (1 second)
+    private float clickStartTime = 0f; // Time when mouse button was pressed
 
     void Awake()
     {
@@ -44,8 +49,19 @@ public class Tile : MonoBehaviour
     {
         if (!isRotating)
         {
+            clickStartTime = Time.time; // Record the time when mouse button is pressed
             HandlePadInteraction(); // Handle interaction with Pad object
             HandleTileInteraction(); // Handle interaction with another Tile object
+        }
+    }
+
+    void OnMouseUp()
+    {
+        float clickDuration = Time.time - clickStartTime;
+
+        if (clickDuration >= clickTimeThreshold)
+        {
+            ResetSpriteToDefault(); // If mouse press duration is >= 1 second, reset sprite to default and clear data
         }
     }
 
@@ -125,16 +141,24 @@ public class Tile : MonoBehaviour
 
         if (selectedTile != null && selectedTile != this)
         {
-            // Check if the selected tile's sprite is different from this tile's current sprite
-            if (selectedTile.GetSprite() != this.GetSprite())
-            {
-                // Replace the tile with the selected tile's sprite
-                BoardManager.Instance.SaveReplacedTileData(selectedTile, selectedTile.GetSprite(), selectedTile.Step); // Pass 'Step' parameter
-                this.SetSprite(selectedTile.GetSprite());
-                StartRotation();
+            Pad selectedPad = BoardManager.Instance.SelectedPad;
 
-                // Retrieve and log the step variable of the clicked tile
-                Debug.Log($"Clicked tile step: {selectedTile.Step}");
+            if (selectedPad != null)
+            {
+                Sprite padSprite = selectedPad.GetCurrentSprite();
+                Sprite currentTileSprite = this.GetSprite();
+
+                // Check if the pad sprite is the same as the clicked tile's current sprite
+                if (padSprite == currentTileSprite)
+                {
+                    // Replace the tile sprite with the default sprite
+                    BoardManager.Instance.SaveReplacedTileData(selectedTile, BoardManager.Instance.DefaultTileBoardSprite, selectedTile.Step); // Pass 'Step' parameter
+                    this.SetSprite(BoardManager.Instance.DefaultTileBoardSprite);
+                    StartRotation();
+
+                    // Log that the tile sprite was replaced with default
+                    Debug.Log($"Replaced tile with default sprite. Clicked tile step: {selectedTile.Step}");
+                }
             }
         }
     }
@@ -142,5 +166,15 @@ public class Tile : MonoBehaviour
     public void SetSpriteToDefault()
     {
         SetSprite(defaultSprite); // Set sprite to default sprite
+    }
+
+    private void ResetSpriteToDefault()
+    {
+        // Reset sprite to default sprite
+        SetSprite(defaultSprite);
+        Debug.Log("Tile sprite reset to default sprite.");
+
+        // Clear saved data associated with this tile step
+        BoardManager.Instance.ClearTileDataForStep(Step);
     }
 }
