@@ -21,11 +21,14 @@ public class Pad : MonoBehaviour
 
     void OnMouseDown()
     {
-        // Store current sprite in BoardManager
-        BoardManager.Instance.SetSelectedPad(this);
-
         // Scale up the pad
         StartCoroutine(ScalePad());
+
+        // Set this pad as the selected pad in BoardManager
+        BoardManager.Instance.SelectedPad = this;
+
+        // Display the board based on saved tiles or default
+        BoardManager.Instance.DisplaySavedOrDefaultBoard();
     }
 
     IEnumerator ScalePad()

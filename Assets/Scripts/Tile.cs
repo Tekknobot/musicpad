@@ -29,27 +29,24 @@ public class Tile : MonoBehaviour
 
     void OnMouseDown()
     {
-        // Toggle between default sprite and selected Pad's sprite
-        if (currentSprite == defaultSprite)
+        // Ensure BoardManager.Instance is not null
+        if (BoardManager.Instance != null)
         {
-            // Copy sprite from selected Pad to this Tile
-            if (BoardManager.Instance != null && BoardManager.Instance.SelectedPad != null)
-            {
-                Sprite padSprite = BoardManager.Instance.SelectedPad.GetCurrentSprite();
-                SetSprite(padSprite);
+            // Get the selected Pad from BoardManager
+            Pad selectedPad = BoardManager.Instance.SelectedPad;
 
-                // Ensure tile is on top layer
-                SetSortingOrder(1);
+            // Check if there is a selected Pad and it has a sprite
+            if (selectedPad != null && selectedPad.GetCurrentSprite() != null)
+            {
+                // Replace Tile's sprite with selected Pad's sprite
+                SetSprite(selectedPad.GetCurrentSprite());
 
                 // Start rotating the tile sprite
                 StartRotation();
+
+                // Save replaced tile (if needed)
+                BoardManager.Instance.SaveReplacedTile(this);
             }
-        }
-        else
-        {
-            // Revert to default sprite
-            SetSprite(defaultSprite);
-            StopRotation();
         }
     }
 
