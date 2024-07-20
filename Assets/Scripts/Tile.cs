@@ -50,6 +50,23 @@ public class Tile : MonoBehaviour
                 // Start rotating the tile
                 StartRotation();
             }
+
+            Tile selectedTile = this; // Get the selected tile from BoardManager
+
+            if (selectedTile != null)
+            {
+                // Save replaced tile data in BoardManager
+                BoardManager.Instance.SaveReplacedTileData(this, selectedTile.GetSprite(), selectedTile.Step);
+
+                // Replace the tile sprite with the selected tile sprite
+                SetSprite(selectedTile.GetSprite());
+
+                // Start rotating the tile
+                StartRotation();
+
+                // Retrieve and log the step variable of the clicked tile
+                Debug.Log($"Clicked tile step: {Step}");
+            }            
         }
     }
 

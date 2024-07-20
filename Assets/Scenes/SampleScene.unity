@@ -301,8 +301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
-  _padPrefab: {fileID: 0}
   _tilePrefab: {fileID: -1442566676035412913, guid: fa3e306d0c222e343a1f3854bbbfe0f6, type: 3}
+  _defaultSprite: {fileID: 21300000, guid: 78b8217c21f460c43acdb671fc45e794, type: 3}
+  step: 0
 --- !u!4 &947249321
 Transform:
   m_ObjectHideFlags: 0

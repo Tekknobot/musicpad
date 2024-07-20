@@ -9,8 +9,12 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Tile _tilePrefab;
     [SerializeField] private Sprite _defaultSprite; // Default sprite for tiles
 
-    private Dictionary<Vector2, Tile> _tiles; // Dictionary to store Tiles
+    private Dictionary<int, Tile> _tiles; // Dictionary to store Tiles
+    private List<ReplacedTileData> _replacedTilesData; // List to store replaced tile data
+
     private Pad selectedPad; // Store the selected Pad
+
+    public int step;
 
     public Pad SelectedPad
     {
@@ -21,7 +25,8 @@ public class BoardManager : MonoBehaviour
     void Awake()
     {
         Instance = this; // Initialize singleton instance
-        _tiles = new Dictionary<Vector2, Tile>(); // Initialize _tiles dictionary
+        _tiles = new Dictionary<int, Tile>(); // Initialize _tiles dictionary
+        _replacedTilesData = new List<ReplacedTileData>(); // Initialize replaced tiles data list
     }
 
     void Start()
@@ -32,7 +37,7 @@ public class BoardManager : MonoBehaviour
         // In your actual implementation, this logic should come from your save/load system
         if (HasSavedTiles())
         {
-            DisplaySavedTiles();
+            DisplaySavedTilesForPad(selectedPad.GetCurrentSprite());
         }
         else
         {
@@ -49,7 +54,10 @@ public class BoardManager : MonoBehaviour
                 // Instantiate tiles
                 var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.name = $"Tile ({x},{y})";
-                _tiles[new Vector2(x, y)] = spawnedTile;
+                _tiles[step++] = spawnedTile;
+
+                // Example: Save initial tile data
+                SaveTileData(spawnedTile, spawnedTile.GetSprite(), spawnedTile.Step);
             }
         }
     }
@@ -62,32 +70,83 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void DisplaySavedTiles()
+    public void DisplaySavedTilesForPad(Sprite padSprite)
     {
-        // Logic to display saved tiles goes here
+        ClearTiles(); // Clear current tile sprites
+
+        foreach (var replacedTileData in _replacedTilesData)
+        {
+            if (replacedTileData.NewSprite == padSprite)
+            {
+                int tile_step = replacedTileData.NewStep;
+
+                if (_tiles.ContainsKey(tile_step))
+                {
+                    Tile tileToUpdate = _tiles[tile_step];
+
+                    // Check if the tile's step matches the saved step
+                    if (tileToUpdate.Step == replacedTileData.NewStep)
+                    {
+                        tileToUpdate.SetSprite(replacedTileData.NewSprite);
+                    }
+                }
+            }
+        }
+    }
+
+    private void ClearTiles()
+    {
         foreach (var tile in _tiles.Values)
         {
-            // Example: Set all tiles to a specific sprite for demonstration
-            Sprite savedSprite = Resources.Load<Sprite>("SavedSprite"); // Replace with your saved sprite logic
-            tile.SetSprite(savedSprite);
+            tile.SetSprite(_defaultSprite); // Reset all tiles to default sprite
         }
     }
 
     public bool HasSavedTiles()
     {
-        // Example: Check if there are saved tiles (replace with actual save/load logic)
-        return false; // Modify this condition based on your actual game's logic
+        return _replacedTilesData.Count > 0; // Check if there are saved tiles in replacedTilesData list
     }
 
     public void DisplaySavedOrDefaultBoard()
     {
         if (HasSavedTiles())
         {
-            DisplaySavedTiles();
+            DisplaySavedTilesForPad(selectedPad.GetCurrentSprite());
         }
         else
         {
             DisplayDefaultBoard();
+        }
+    }
+
+    public void SaveReplacedTileData(Tile replacedTile, Sprite newSprite, int newStep)
+    {
+        // Save replaced tile data into the list
+        ReplacedTileData replacedTileData = new ReplacedTileData(replacedTile, newSprite, newStep);
+        _replacedTilesData.Add(replacedTileData);
+    }
+
+    private void SaveTileData(Tile tile, Sprite sprite, int step)
+    {
+        // Save tile data into the list or array
+        // Here you can choose to save it in _replacedTilesData or another appropriate structure
+        // For simplicity, I'll demonstrate saving in _replacedTilesData
+        ReplacedTileData tileData = new ReplacedTileData(tile, sprite, step);
+        _replacedTilesData.Add(tileData);
+    }
+
+    // Class to hold replaced tile data
+    private class ReplacedTileData
+    {
+        public Tile Tile;
+        public Sprite NewSprite;
+        public int NewStep;
+
+        public ReplacedTileData(Tile tile, Sprite newSprite, int newStep)
+        {
+            Tile = tile;
+            NewSprite = newSprite;
+            NewStep = newStep;
         }
     }
 }
