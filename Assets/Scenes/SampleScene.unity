@@ -214,52 +214,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &550957017
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 550957019}
-  - component: {fileID: 550957018}
-  m_Layer: 0
-  m_Name: Clock
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &550957018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 550957017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045e068a7f5e98b4d9ed97de401bb997, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bpm_: 120
-  pause_: 0
---- !u!4 &550957019
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 550957017}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &649805127
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +246,15 @@ MonoBehaviour:
   _width: 8
   _height: 1
   _padPrefab: {fileID: 8113108075387127137, guid: 9662ed696ccedf343bf2a9e115137263, type: 3}
+  _sprites:
+  - {fileID: 21300000, guid: 0896617326b66294b9018589782bffae, type: 3}
+  - {fileID: 21300000, guid: 46a0ec7829fc963469ef984337310b0f, type: 3}
+  - {fileID: 21300000, guid: 0cbf34f29948eb84cba94993a94178f9, type: 3}
+  - {fileID: 21300000, guid: 75c513308de89fd4a8c64d8d1253a3d7, type: 3}
+  - {fileID: 21300000, guid: 839d463d77504eb4787a18ccc3688e03, type: 3}
+  - {fileID: 21300000, guid: 2d20a6686b5db294a95a7f07d717ec74, type: 3}
+  - {fileID: 21300000, guid: 99e667dc8fd147e46ac9f213b643d054, type: 3}
+  - {fileID: 21300000, guid: 49a77df0148f3b54d98a78f6a27707b7, type: 3}
 --- !u!4 &649805129
 Transform:
   m_ObjectHideFlags: 0
@@ -338,6 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
+  _padPrefab: {fileID: 0}
   _tilePrefab: {fileID: -1442566676035412913, guid: fa3e306d0c222e343a1f3854bbbfe0f6, type: 3}
 --- !u!4 &947249321
 Transform:
@@ -389,148 +353,286 @@ MonoBehaviour:
   noteOnEvent:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
   noteOffEvent:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
   beatEvent:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
+  activeNotes: []
   length: 16
   currentIndex: -1
   loop: 1
+  beatTime: 0
+  paused: 0
   allNotes:
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   - notes: []
+    oldNotes: []
   scrollPosition: {x: 0, y: 0}
   autoScroll: 1
   division: 1
   zoom: 0.3
+  lastSequencerPosition: -1
+  waitTillNextCycle: 0
+  numCycles: -1
+  lastWindowTime: -0.01
 --- !u!114 &1153541155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,74 +646,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyzones:
-  - audioClip: {fileID: 8300000, guid: 3616c36168adce749901e295940f515b, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 60
-    minKey: 60
-    maxKey: 60
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 950.528
-  - audioClip: {fileID: 8300000, guid: 16b7987c7feb1a14da50f17b7b21085e, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 61
-    minKey: 61
-    maxKey: 61
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1678.9973333333332
-  - audioClip: {fileID: 8300000, guid: 6015f563e8ef73c429605751775d4d32, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 62
-    minKey: 62
-    maxKey: 62
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1679.2746666666667
-  - audioClip: {fileID: 8300000, guid: 785e52e99ae3e0d48b08161770753f94, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 63
-    minKey: 63
-    maxKey: 63
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1679.552
-  - audioClip: {fileID: 8300000, guid: 0626eeb7178d2e64fbff7f4cf54af1be, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 64
-    minKey: 64
-    maxKey: 64
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1679.8933333333334
-  - audioClip: {fileID: 8300000, guid: a9b3e4e4c160cf84f96ede86d2205dd1, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 65
-    minKey: 65
-    maxKey: 65
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1680.2133333333334
-  - audioClip: {fileID: 8300000, guid: 3aea2a6d3ae4791459f41020769b8634, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 66
-    minKey: 66
-    maxKey: 66
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1680.768
-  - audioClip: {fileID: 8300000, guid: a1056fe4ec64da5458f4e80910f2d243, type: 3}
-    mixer: {fileID: 0}
-    rootKey: 67
-    minKey: 67
-    maxKey: 67
-    minVelocity: 0
-    maxVelocity: 1
-    lastScheduled: 1681.344
+  - {audioClip: {fileID: 8300000, guid: 3616c36168adce749901e295940f515b, type: 3}, mixer: {fileID: 0}, rootKey: 60, minKey: 60, maxKey: 60, minVelocity: 0, maxVelocity: 1, lastScheduled: 950.528}
+  - {audioClip: {fileID: 8300000, guid: 16b7987c7feb1a14da50f17b7b21085e, type: 3}, mixer: {fileID: 0}, rootKey: 61, minKey: 61, maxKey: 61, minVelocity: 0, maxVelocity: 1, lastScheduled: 1678.9973333333332}
+  - {audioClip: {fileID: 8300000, guid: 6015f563e8ef73c429605751775d4d32, type: 3}, mixer: {fileID: 0}, rootKey: 62, minKey: 62, maxKey: 62, minVelocity: 0, maxVelocity: 1, lastScheduled: 1679.2746666666667}
+  - {audioClip: {fileID: 8300000, guid: 785e52e99ae3e0d48b08161770753f94, type: 3}, mixer: {fileID: 0}, rootKey: 63, minKey: 63, maxKey: 63, minVelocity: 0, maxVelocity: 1, lastScheduled: 1679.552}
+  - {audioClip: {fileID: 8300000, guid: 0626eeb7178d2e64fbff7f4cf54af1be, type: 3}, mixer: {fileID: 0}, rootKey: 64, minKey: 64, maxKey: 64, minVelocity: 0, maxVelocity: 1, lastScheduled: 1679.8933333333334}
+  - {audioClip: {fileID: 8300000, guid: a9b3e4e4c160cf84f96ede86d2205dd1, type: 3}, mixer: {fileID: 0}, rootKey: 65, minKey: 65, maxKey: 65, minVelocity: 0, maxVelocity: 1, lastScheduled: 1680.2133333333334}
+  - {audioClip: {fileID: 8300000, guid: 3aea2a6d3ae4791459f41020769b8634, type: 3}, mixer: {fileID: 0}, rootKey: 66, minKey: 66, maxKey: 66, minVelocity: 0, maxVelocity: 1, lastScheduled: 1680.768}
+  - {audioClip: {fileID: 8300000, guid: a1056fe4ec64da5458f4e80910f2d243, type: 3}, mixer: {fileID: 0}, rootKey: 67, minKey: 67, maxKey: 67, minVelocity: 0, maxVelocity: 1, lastScheduled: 1681.344}
   keyzonePlayMode: 0
   velocityTracking: 1
   numVoices: 8
   useNoteOff_: 0
+  audioIndex: 0
 --- !u!82 &1153541156
 AudioSource:
   m_ObjectHideFlags: 0
@@ -744,5 +791,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 947249321}
   - {fileID: 1153541157}
-  - {fileID: 550957019}
   - {fileID: 649805129}
