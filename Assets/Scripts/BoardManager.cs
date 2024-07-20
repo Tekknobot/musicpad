@@ -20,7 +20,7 @@ public class BoardManager : MonoBehaviour
         set { selectedPad = value; }
     }
 
-    private int step; // Step counter
+    public int _stepCount; // Step counter
 
     void Awake()
     {
@@ -47,15 +47,17 @@ public class BoardManager : MonoBehaviour
 
     void GenerateGrid()
     {
-        step = 0; // Reset step counter
+        int step = 0; // Reset step counter
 
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
             {
                 // Instantiate tiles
-                var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
+                var spawnedTile = Instantiate(_tilePrefab, new Vector3(y, x), Quaternion.identity);
                 spawnedTile.name = $"Tile ({x},{y})";
+                spawnedTile.step = _stepCount++;
+                Debug.Log(_stepCount);
                 _tiles[step++] = spawnedTile;
 
                 // Example: Save initial tile data

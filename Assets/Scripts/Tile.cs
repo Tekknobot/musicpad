@@ -11,7 +11,7 @@ public class Tile : MonoBehaviour
     private float currentRotation = 0f; // Current rotation angle
     private Quaternion startRotation; // Initial rotation of the tile
 
-    private int step; // Step number of the tile
+    public int step; // Step number of the tile
 
     public int Step
     {
@@ -113,7 +113,7 @@ public class Tile : MonoBehaviour
 
         if (selectedPad != null)
         {
-            SetSprite(selectedPad.GetCurrentSprite());
+            this.SetSprite(selectedPad.GetCurrentSprite());
             BoardManager.Instance.SaveReplacedTileData(this, selectedPad.GetCurrentSprite(), Step); // Pass 'Step' parameter
             StartRotation();
         }
@@ -126,11 +126,11 @@ public class Tile : MonoBehaviour
         if (selectedTile != null)
         {
             BoardManager.Instance.SaveReplacedTileData(selectedTile, selectedTile.GetSprite(), selectedTile.Step); // Pass 'Step' parameter
-            SetSprite(selectedTile.GetSprite());
+            this.SetSprite(selectedTile.GetSprite());
             StartRotation();
 
             // Retrieve and log the step variable of the clicked tile
-            Debug.Log($"Clicked tile step: {Step}");
+            Debug.Log($"Clicked tile step: {selectedTile.Step}");
         }
     }
 
